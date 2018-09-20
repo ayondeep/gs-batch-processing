@@ -16,7 +16,12 @@ public class PersonItemProcessor implements ItemProcessor<Person, Person> {
 
         final Person transformedPerson = new Person(firstName, lastName);
 
+        Thread.sleep(1); // Artificial delay to increase processing time
+
         log.info("Converting (" + person + ") into (" + transformedPerson + ")");
+
+
+        log.info("Thread name = " + Thread.currentThread().getName());
 
         return transformedPerson;
     }

@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.task.SimpleAsyncTaskExecutor;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 @Configuration
@@ -80,6 +81,7 @@ public class BatchConfiguration {
             .reader(reader())
             .processor(processor())
             .writer(writer)
+                .taskExecutor(new SimpleAsyncTaskExecutor()).throttleLimit(10)
             .build();
     }
     // end::jobstep[]

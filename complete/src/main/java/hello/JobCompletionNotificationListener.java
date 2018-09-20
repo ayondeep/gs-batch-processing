@@ -16,9 +16,19 @@ public class JobCompletionNotificationListener extends JobExecutionListenerSuppo
 
 	private final JdbcTemplate jdbcTemplate;
 
+	private long startTime;
+
+	private long endTime;
+
 	@Autowired
 	public JobCompletionNotificationListener(JdbcTemplate jdbcTemplate) {
 		this.jdbcTemplate = jdbcTemplate;
+	}
+
+	@Override
+	public void beforeJob(JobExecution jobExecution) {
+		startTime = System.currentTimeMillis();
+
 	}
 
 	@Override
@@ -32,5 +42,9 @@ public class JobCompletionNotificationListener extends JobExecutionListenerSuppo
 					rs.getString(2))
 			).forEach(person -> log.info("Found <" + person + "> in the database."));
 		}
+
+		endTime = System.currentTimeMillis();
+		long executionTime = endTime - startTime;
+		log.info("Time taken to execute in ms = " + executionTime);
 	}
 }
